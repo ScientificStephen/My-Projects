@@ -12,62 +12,55 @@ export default function NavBar() {
 
   return (
     <>
-      <header className="flex items-center justify-between py-6 border-b border-yellow-600/20 bg-slate-900/80 backdrop-blur-xl sticky top-0 z-50 shadow-luxury">
-        <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition group">
-            <div className="w-10 h-10 bg-gradient-to-br from-yellow-600 via-yellow-500 to-amber-600 rounded-xl flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform border-2 border-yellow-400/30">
-              <Users className="w-5 h-5 text-white" />
+      <header className="flex items-center justify-between py-3 border-b border-yellow-600/20 bg-slate-900/80 backdrop-blur-xl sticky top-0 z-50 shadow-luxury">
+        <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition group">
+            <div className="w-8 h-8 bg-gradient-to-br from-yellow-600 via-yellow-500 to-amber-600 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform border border-yellow-400/30">
+              <Users className="w-4 h-4 text-white" />
             </div>
-            <div>
-              <span className="text-gold-gradient text-xl font-bold block font-display">New Family Tree</span>
-            </div>
+            <span className="text-gold-gradient text-base font-bold font-display">New Family Tree</span>
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <Link
-            href="/"
-            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body tracking-wide"
-          >
+        <nav className="hidden md:flex items-center gap-6">
+          <Link href="/" className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body">
             Feed
           </Link>
-          <Link
-            href="/tree"
-            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body tracking-wide"
-          >
+          <Link href="/tree" className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body">
             Tree
           </Link>
           <Link
             href="/add-member"
-            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body tracking-wide"
+            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body"
           >
             Add Member
           </Link>
           <Link
             href="/profile"
-            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body tracking-wide"
+            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body"
           >
             Profile
           </Link>
           <Button
             onClick={() => setAuthModalOpen(true)}
-            className="btn-gold text-slate-900 font-bold shadow-xl hover:shadow-2xl transition-all px-6 font-body border-2 border-yellow-400/30"
+            size="sm"
+            className="btn-gold text-slate-900 font-bold shadow-lg hover:shadow-xl transition-all px-4 py-1 font-body border border-yellow-400/30"
           >
-            <Sparkles className="w-4 h-4 mr-2" />
-            Join Now
+            <Sparkles className="w-3 h-3 mr-1" />
+            Join
           </Button>
         </nav>
 
         {/* Mobile Menu Button */}
         <button className="md:hidden text-yellow-400" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="absolute top-full left-0 right-0 bg-slate-900 border-b border-yellow-600/20 shadow-2xl md:hidden">
-            <nav className="flex flex-col p-6 space-y-4">
+            <nav className="flex flex-col p-4 space-y-3">
               <Link
                 href="/"
                 className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition py-2 font-body"
@@ -101,7 +94,7 @@ export default function NavBar() {
                   setAuthModalOpen(true)
                   setMobileMenuOpen(false)
                 }}
-                className="btn-gold text-slate-900 font-bold shadow-xl w-full border-2 border-yellow-400/30"
+                className="btn-gold text-slate-900 font-bold shadow-xl w-full border border-yellow-400/30"
               >
                 <Sparkles className="w-4 h-4 mr-2" />
                 Join Now
