@@ -1,128 +1,117 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Heart, Menu, X } from "lucide-react"
-import Link from "next/link"
 import { useState } from "react"
+import Link from "next/link"
+import { Users, Menu, X, Sparkles } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import AuthModal from "./auth-modal"
 
-export default function Navbar() {
+export default function NavBar() {
+  const [authModalOpen, setAuthModalOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-yellow-600/20 bg-slate-950/80 backdrop-blur-xl">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-              <Heart className="h-5 w-5 text-slate-950 fill-slate-950" />
+    <>
+      <header className="flex items-center justify-between py-6 border-b border-yellow-600/20 bg-slate-900/80 backdrop-blur-xl sticky top-0 z-50 shadow-luxury">
+        <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition group">
+            <div className="w-10 h-10 bg-gradient-to-br from-yellow-600 via-yellow-500 to-amber-600 rounded-xl flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform border-2 border-yellow-400/30">
+              <Users className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-gold-gradient font-display hidden sm:inline">New Family Tree</span>
+            <div>
+              <span className="text-gold-gradient text-xl font-bold block font-display">New Family Tree</span>
+            </div>
           </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <Link
-              href="#features"
-              className="text-slate-300 hover:text-yellow-400 transition-colors font-body font-medium"
-            >
-              Features
-            </Link>
-            <Link
-              href="#stories"
-              className="text-slate-300 hover:text-yellow-400 transition-colors font-body font-medium"
-            >
-              Stories
-            </Link>
-            <Link
-              href="#how-it-works"
-              className="text-slate-300 hover:text-yellow-400 transition-colors font-body font-medium"
-            >
-              How It Works
-            </Link>
-            <Link
-              href="#pricing"
-              className="text-slate-300 hover:text-yellow-400 transition-colors font-body font-medium"
-            >
-              Pricing
-            </Link>
-          </div>
-
-          {/* Desktop CTA Buttons */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link href="/auth">
-              <Button variant="ghost" className="text-slate-300 hover:text-yellow-400 font-body font-medium">
-                Sign In
-              </Button>
-            </Link>
-            <Link href="/auth">
-              <Button className="bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-slate-950 font-bold shadow-lg">
-                Get Started
-              </Button>
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-slate-300 hover:text-yellow-400 transition-colors"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-8">
+          <Link
+            href="/"
+            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body tracking-wide"
+          >
+            Feed
+          </Link>
+          <Link
+            href="/tree"
+            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body tracking-wide"
+          >
+            Tree
+          </Link>
+          <Link
+            href="/add-member"
+            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body tracking-wide"
+          >
+            Add Member
+          </Link>
+          <Link
+            href="/profile"
+            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body tracking-wide"
+          >
+            Profile
+          </Link>
+          <Button
+            onClick={() => setAuthModalOpen(true)}
+            className="btn-gold text-slate-900 font-bold shadow-xl hover:shadow-2xl transition-all px-6 font-body border-2 border-yellow-400/30"
+          >
+            <Sparkles className="w-4 h-4 mr-2" />
+            Join Now
+          </Button>
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <button className="md:hidden text-yellow-400" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+
+        {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-yellow-600/20 animate-slide-up">
-            <div className="flex flex-col gap-4">
+          <div className="absolute top-full left-0 right-0 bg-slate-900 border-b border-yellow-600/20 shadow-2xl md:hidden">
+            <nav className="flex flex-col p-6 space-y-4">
               <Link
-                href="#features"
+                href="/"
+                className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition py-2 font-body"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-300 hover:text-yellow-400 transition-colors font-body font-medium px-4 py-2"
               >
-                Features
+                Feed
               </Link>
               <Link
-                href="#stories"
+                href="/tree"
+                className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition py-2 font-body"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-300 hover:text-yellow-400 transition-colors font-body font-medium px-4 py-2"
               >
-                Stories
+                Tree
               </Link>
               <Link
-                href="#how-it-works"
+                href="/add-member"
+                className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition py-2 font-body"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-300 hover:text-yellow-400 transition-colors font-body font-medium px-4 py-2"
               >
-                How It Works
+                Add Member
               </Link>
               <Link
-                href="#pricing"
+                href="/profile"
+                className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition py-2 font-body"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-300 hover:text-yellow-400 transition-colors font-body font-medium px-4 py-2"
               >
-                Pricing
+                Profile
               </Link>
-              <div className="flex flex-col gap-2 px-4 pt-4 border-t border-yellow-600/20">
-                <Link href="/auth" onClick={() => setMobileMenuOpen(false)}>
-                  <Button
-                    variant="outline"
-                    className="w-full border-yellow-500/50 hover:bg-yellow-500/10 bg-transparent"
-                  >
-                    Sign In
-                  </Button>
-                </Link>
-                <Link href="/auth" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-slate-950 font-bold">
-                    Get Started
-                  </Button>
-                </Link>
-              </div>
-            </div>
+              <Button
+                onClick={() => {
+                  setAuthModalOpen(true)
+                  setMobileMenuOpen(false)
+                }}
+                className="btn-gold text-slate-900 font-bold shadow-xl w-full border-2 border-yellow-400/30"
+              >
+                <Sparkles className="w-4 h-4 mr-2" />
+                Join Now
+              </Button>
+            </nav>
           </div>
         )}
-      </div>
-    </nav>
+      </header>
+
+      <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
+    </>
   )
 }

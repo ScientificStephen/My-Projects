@@ -1,472 +1,311 @@
-"use client"
-
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Heart, Users, Shield, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
+import FeedCard from "@/components/feed-card"
+import FamilyTreeCard from "@/components/family-tree-card"
 import Testimonials from "@/components/testimonials"
-import { motion } from "framer-motion"
+import SocialShare from "@/components/social-share"
+import { Button } from "@/components/ui/button"
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Heart, Quote, Sparkles, Users, Crown } from "lucide-react"
+import Image from "next/image"
 
-export default function HomePage() {
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 },
-  }
-
+export default function Home() {
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Background with overlay */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/diverse-multiracial-families-smiling-together-mult.jpg"
-            alt="Diverse families together"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/95 via-slate-950/90 to-slate-950" />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 container mx-auto px-4 text-center">
-          <motion.div {...fadeIn}>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-gold-gradient font-display">
-              Build the Family You Love
+    <div className="space-y-12">
+      {/* Hero Section with Viral Quote and Chosen Family Image */}
+      <div className="relative rounded-3xl overflow-hidden shadow-luxury">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 z-10" />
+        <Image
+          src="/black-father-white-son-handshake-chosen-family.jpg"
+          alt="Black father and white son shaking hands - chosen family"
+          width={1200}
+          height={600}
+          className="object-cover w-full h-[600px] opacity-40"
+        />
+        <div className="absolute inset-0 z-20 flex items-center justify-center px-6">
+          <div className="max-w-5xl text-center">
+            <Quote className="w-16 h-16 text-yellow-400 mx-auto mb-6 opacity-50" />
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 font-display leading-tight">
+              You might not have been born with the family you <span className="text-gold-gradient">want</span>
+              <br />
+              but here you can build the family you <span className="text-gold-gradient">love</span>
             </h1>
-            <p className="text-xl md:text-2xl text-slate-300 mb-8 max-w-3xl mx-auto font-body leading-relaxed">
-              Because family isn't just who you're born to—it's who you choose. Connect with the people who truly
-              matter, create lasting bonds, and build your chosen family tree.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <p className="text-xl md:text-2xl text-yellow-100 mb-4 font-body italic">— Alexian Scruggs, Founder</p>
+
+            <div className="flex gap-4 justify-center flex-wrap mt-8">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-slate-950 font-bold text-lg px-8 py-6 shadow-luxury"
+                className="btn-gold text-slate-900 font-bold shadow-2xl text-lg px-8 border-2 border-yellow-400/30"
               >
-                Start Your Journey
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <Sparkles className="w-5 h-5 mr-2" />
+                Build Your Family
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-2 border-yellow-500/50 hover:bg-yellow-500/10 text-slate-100 font-bold text-lg px-8 py-6 bg-transparent"
-              >
-                Learn More
-              </Button>
+              <SocialShare
+                title="Build the Family You Love"
+                text="You might not have been born with the family you want but here you can build the family you love. Join New Family Tree today!"
+              />
             </div>
-          </motion.div>
 
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-16 grid grid-cols-3 gap-8 max-w-3xl mx-auto"
-          >
-            <div>
-              <div className="text-4xl font-bold text-gold-gradient mb-2">10K+</div>
-              <div className="text-slate-400 font-body">Members</div>
+            {/* Social Proof */}
+            <div className="mt-12 flex items-center justify-center gap-8 text-slate-300 flex-wrap">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-gold-gradient">10,000+</div>
+                <div className="text-sm font-body">Chosen Families</div>
+              </div>
+              <div className="w-px h-12 bg-slate-600" />
+              <div className="text-center">
+                <div className="text-3xl font-bold text-gold-gradient">50+</div>
+                <div className="text-sm font-body">Countries</div>
+              </div>
+              <div className="w-px h-12 bg-slate-600" />
+              <div className="text-center">
+                <div className="text-3xl font-bold text-gold-gradient">1M+</div>
+                <div className="text-sm font-bold text-gold-gradient">Connections</div>
+              </div>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-gold-gradient mb-2">50K+</div>
-              <div className="text-slate-400 font-body">Connections</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-gold-gradient mb-2">4.9★</div>
-              <div className="text-slate-400 font-body">Rating</div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Problem Statement */}
-      <section className="py-20 bg-gradient-to-b from-slate-950 to-slate-900">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gold-gradient font-display">
-              You're Not Alone in Feeling Alone
-            </h2>
-            <p className="text-xl text-slate-300 font-body leading-relaxed">
-              Millions of people feel disconnected from their biological families. Whether due to distance, values,
-              trauma, or life circumstances—you deserve a family that celebrates who you are.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {[
-              {
-                title: "LGBTQ+ Individuals",
-                description: "Rejected by biological family? Build one that celebrates your authentic self.",
-                icon: Heart,
-              },
-              {
-                title: "Single Parents",
-                description: "Need a support system? Find 'aunts,' 'uncles,' and co-parents who show up.",
-                icon: Users,
-              },
-              {
-                title: "Survivors",
-                description: "Healing from toxic relationships? Create a family based on love, not obligation.",
-                icon: Shield,
-              },
-              {
-                title: "Immigrants & Expats",
-                description: "Far from home? Connect with people who understand your journey and culture.",
-                icon: Sparkles,
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="card-luxury shadow-luxury border-2 border-yellow-600/20 hover-lift h-full">
-                  <CardContent className="p-6">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center mb-4">
-                      <item.icon className="h-6 w-6 text-slate-950" />
-                    </div>
-                    <h3 className="text-xl font-bold mb-3 text-slate-100 font-display">{item.title}</h3>
-                    <p className="text-slate-300 font-body leading-relaxed">{item.description}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Features Section */}
-      <section className="py-20 bg-slate-900">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gold-gradient font-display">
-              Everything You Need to Build Your Family
+      {/* Featured Story - Father & Son */}
+      <div className="card-luxury shadow-luxury border-2 border-yellow-600/30">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="relative h-80 rounded-xl overflow-hidden">
+            <Image
+              src="/black-father-white-son-handshake-chosen-family.jpg"
+              alt="Marcus and David - Father and Son"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="space-y-4">
+            <div className="inline-block bg-yellow-600/20 text-yellow-400 px-4 py-2 rounded-full text-sm font-bold border border-yellow-600/30">
+              Featured Story
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gold-gradient font-display">
+              When Marcus Became a Father Again
             </h2>
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto font-body">
-              More than just a platform—it's a movement. Connect, share, and grow with the family you deserve.
+            <p className="text-slate-300 leading-relaxed font-body text-lg">
+              Marcus, 45, thought his chance at fatherhood had passed. David, 23, had never known a father figure. When
+              they met on New Family Tree, something clicked. "The moment we shook hands, I knew I'd found my dad,"
+              David says. Marcus adds, "Blood didn't make us family. Choice did. Love did."
             </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                title: "Visual Family Tree",
-                description:
-                  "Create a beautiful, interactive tree with chosen family members—aunts, uncles, siblings, or 'just family.'",
-                image: "/asian-family-smiling-beach-vintage-photo-children.jpg",
-              },
-              {
-                title: "Private & Group Messaging",
-                description:
-                  "Stay connected with 1-on-1 chats or family group conversations. Share daily moments securely.",
-                image: "/hispanic-elderly-grandmother-smiling-birthday-cele.jpg",
-              },
-              {
-                title: "Shared Memories",
-                description:
-                  "Upload photos, videos, and stories. Build a digital scrapbook of your chosen family's journey.",
-                image: "/diverse-mixed-race-family-smiling-reunion-outdoors.jpg",
-              },
-              {
-                title: "Family Events",
-                description:
-                  "Plan dinners, birthdays, or virtual hangouts. Coordinate schedules and never miss a celebration.",
-                image: "/african-black-family-dinner-table-smiling-together.jpg",
-              },
-              {
-                title: "Video Calls",
-                description: "Face-to-face connection from anywhere. Host family calls with up to 12 people at once.",
-                image: "/happy-asian-family-smiling.jpg",
-              },
-              {
-                title: "Safe & Secure",
-                description: "Your family, your privacy. End-to-end encryption and control who sees what you share.",
-                image: "/happy-multiracial-mixed-family-smiling.jpg",
-              },
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="card-luxury shadow-luxury overflow-hidden group hover-lift border-2 border-yellow-600/20">
-                  <div className="relative h-48 overflow-hidden">
-                    <Image
-                      src={feature.image || "/placeholder.svg"}
-                      alt={feature.title}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent" />
-                  </div>
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-bold mb-3 text-slate-100 font-display">{feature.title}</h3>
-                    <p className="text-slate-300 font-body leading-relaxed">{feature.description}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+            <div className="flex items-center gap-4 pt-4">
+              <div className="flex -space-x-2">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-600 to-amber-600 flex items-center justify-center text-white font-bold text-lg border-2 border-slate-900">
+                  M
+                </div>
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white font-bold text-lg border-2 border-slate-900">
+                  D
+                </div>
+              </div>
+              <div>
+                <div className="font-bold text-slate-100 font-display">Marcus & David</div>
+                <div className="text-sm text-yellow-400 font-body">Father & Son • Since 2023</div>
+              </div>
+            </div>
+            <Button className="btn-gold text-slate-900 font-bold border-2 border-yellow-400/30 mt-4">
+              <Heart className="w-4 h-4 mr-2" />
+              Read Their Story
+            </Button>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Shareable Quote Card */}
+      <div className="card-luxury text-center py-12 px-8 relative overflow-hidden">
+        <div className="absolute top-4 right-4">
+          <SocialShare
+            title="Family isn't always blood"
+            text="Family isn't always blood. It's the people in your life who want you in theirs. The ones who accept you for who you are."
+          />
+        </div>
+        <Crown className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
+        <blockquote className="text-2xl md:text-3xl text-slate-100 font-display italic mb-4 leading-relaxed">
+          "Family isn't always blood. It's the people in your life who want you in theirs. The ones who accept you for
+          who you are."
+        </blockquote>
+        <p className="text-yellow-400 font-body">— The New Family Tree Community</p>
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Feed Section */}
+        <section className="md:col-span-2 space-y-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-3xl font-bold text-gold-gradient font-display">Family Stories</h2>
+            <div className="text-sm text-slate-400 flex gap-3 font-body">
+              <span className="font-medium text-yellow-400">Trending</span>
+              <span className="text-slate-500">•</span>
+              <span>Latest</span>
+            </div>
+          </div>
+
+          <FeedCard
+            name="Marcus Johnson"
+            time="2h ago"
+            text="Today marks 1 year since David and I became father and son. Not by blood, but by choice. He's taught me as much as I've taught him. This is what real family looks like. 🤝❤️"
+            image="/black-father-white-son-handshake-chosen-family.jpg"
+            likes={2341}
+            comments={456}
+          />
+
+          <FeedCard
+            name="Aisha Rahman"
+            time="5h ago"
+            text="Five years ago, I walked into a support group feeling alone. Today, I have 12 people I call family who weren't in my life before. They chose me, and I chose them. That's real family. 💛"
+            image="/diverse-mixed-race-family-smiling-reunion-outdoors.jpg"
+            likes={842}
+            comments={126}
+          />
+
+          <FeedCard
+            name="David Chen"
+            time="8h ago"
+            text="My biological father left when I was 3. Marcus showed up when I was 23. He didn't have to choose me, but he did. And I chose him right back. Blood doesn't make family - love and commitment do. 🙏✨"
+            likes={1567}
+            comments={234}
+          />
+
+          <FeedCard
+            name="Sofia Martinez"
+            time="1 day ago"
+            text="My daughter calls my best friend 'Auntie' even though we're not blood-related. Because family is about love, not DNA. Building a family tree that reflects the love in our lives, not just bloodlines. 🌳❤️"
+            image="/happy-multiracial-mixed-family-smiling.jpg"
+            likes={956}
+            comments={189}
+          />
+        </section>
+
+        {/* Sidebar */}
+        <aside className="space-y-6">
+          {/* Your Circle */}
+          <div className="card-luxury">
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2 text-slate-100">
+                <Users className="w-5 h-5 text-yellow-400" />
+                Your Circle
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <FamilyTreeCard name="Marcus Johnson" relation="Chosen Father" />
+              <FamilyTreeCard name="Aisha Rahman" relation="Chosen Sister" />
+              <FamilyTreeCard name="Sofia Martinez" relation="Chosen Aunt" />
+              <Button className="w-full mt-4 bg-yellow-600/20 text-yellow-400 border border-yellow-600/30 hover:bg-yellow-600/30">
+                Build Your Circle
+              </Button>
+            </CardContent>
+          </div>
+
+          {/* Community Stats */}
+          <div className="card-gold">
+            <CardHeader>
+              <CardTitle className="text-lg text-slate-800">This Week</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-700 font-body">New connections</span>
+                <span className="font-bold text-yellow-800">2,847</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-700 font-body">Stories shared</span>
+                <span className="font-bold text-yellow-800">15,432</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-700 font-body">Hearts given</span>
+                <span className="font-bold text-yellow-800">89,231</span>
+              </div>
+            </CardContent>
+          </div>
+
+          {/* Founder Message */}
+          <div className="card-luxury border-2 border-yellow-600/30">
+            <CardHeader>
+              <div className="w-16 h-16 bg-gradient-to-br from-yellow-600 to-amber-600 rounded-full flex items-center justify-center text-white font-bold text-2xl mb-3">
+                AS
+              </div>
+              <CardTitle className="text-lg text-slate-100">From Our Founder</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-slate-300 leading-relaxed font-body">
+                "I created New Family Tree because I believe everyone deserves a family that loves them unconditionally.
+                Blood doesn't make family - love, respect, and choice do."
+              </p>
+              <p className="text-yellow-400 text-sm mt-3 font-body italic">— Alexian Scruggs</p>
+            </CardContent>
+          </div>
+        </aside>
+      </div>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-b from-slate-900 to-slate-950">
-        <div className="container mx-auto px-4">
-          <Testimonials />
-        </div>
-      </section>
+      <Testimonials />
 
       {/* How It Works */}
-      <section className="py-20 bg-slate-950">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gold-gradient font-display">
-              Start Building Your Family in Minutes
-            </h2>
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto font-body">
-              Three simple steps to create the support system you've always wanted
-            </p>
-          </motion.div>
+      <div className="card-luxury shadow-luxury py-16 px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-gold-gradient mb-4 font-display">How It Works</h2>
+          <p className="text-xl text-slate-300 max-w-2xl mx-auto font-body">
+            Building your chosen family is simple and authentic
+          </p>
+        </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {[
-              {
-                step: "1",
-                title: "Create Your Profile",
-                description: "Share who you are, what you value, and what kind of family connections you're seeking.",
-              },
-              {
-                step: "2",
-                title: "Find Your People",
-                description:
-                  "Browse profiles, send connection requests, and start conversations with potential family members.",
-              },
-              {
-                step: "3",
-                title: "Build Your Tree",
-                description: "Add connections as family members, create groups, and watch your chosen family grow.",
-              },
-            ].map((step, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="relative"
-              >
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center text-3xl font-bold text-slate-950 mx-auto mb-6 shadow-luxury">
-                    {step.step}
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4 text-slate-100 font-display">{step.title}</h3>
-                  <p className="text-slate-300 font-body leading-relaxed">{step.description}</p>
-                </div>
-                {index < 2 && (
-                  <div className="hidden md:block absolute top-8 -right-4 w-8 h-0.5 bg-gradient-to-r from-yellow-500 to-transparent" />
-                )}
-              </motion.div>
-            ))}
+        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="text-center space-y-4">
+            <div className="w-20 h-20 bg-gradient-to-br from-yellow-600 to-amber-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto border-4 border-yellow-400/30">
+              1
+            </div>
+            <h3 className="text-2xl font-bold text-slate-100 font-display">Create Your Profile</h3>
+            <p className="text-slate-300 font-body">
+              Share who you are and what you're looking for in a chosen family member
+            </p>
+          </div>
+
+          <div className="text-center space-y-4">
+            <div className="w-20 h-20 bg-gradient-to-br from-yellow-600 to-amber-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto border-4 border-yellow-400/30">
+              2
+            </div>
+            <h3 className="text-2xl font-bold text-slate-100 font-display">Connect & Meet</h3>
+            <p className="text-slate-300 font-body">
+              Browse profiles, send messages, and meet people who resonate with your values
+            </p>
+          </div>
+
+          <div className="text-center space-y-4">
+            <div className="w-20 h-20 bg-gradient-to-br from-yellow-600 to-amber-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto border-4 border-yellow-400/30">
+              3
+            </div>
+            <h3 className="text-2xl font-bold text-slate-100 font-display">Build Your Family</h3>
+            <p className="text-slate-300 font-body">
+              Add them to your family tree and nurture the relationships that matter most
+            </p>
           </div>
         </div>
-      </section>
-
-      {/* Social Proof */}
-      <section className="py-20 bg-gradient-to-b from-slate-950 to-slate-900">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-slate-100 font-display">
-              Join Thousands Building Their Chosen Families
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              {[
-                { number: "10,000+", label: "Active Members", sublabel: "Building their families" },
-                { number: "50,000+", label: "Connections Made", sublabel: "And growing daily" },
-                { number: "1,000+", label: "Daily Messages", sublabel: "Staying connected" },
-              ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  <Card className="card-luxury shadow-luxury border-2 border-yellow-600/20 hover-lift">
-                    <CardContent className="p-8 text-center">
-                      <div className="text-5xl font-bold text-gold-gradient mb-2 font-display">{stat.number}</div>
-                      <div className="text-xl font-semibold text-slate-100 mb-1 font-display">{stat.label}</div>
-                      <div className="text-slate-400 font-body">{stat.sublabel}</div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      </div>
 
       {/* CTA Section */}
-      <section className="py-20 bg-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/black-father-white-son-handshake-chosen-family.jpg"
-            alt="Building chosen family"
-            fill
-            className="object-cover opacity-20"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/95 to-slate-900/95" />
+      <div className="card-luxury text-center py-16 px-8 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-1/4 w-64 h-64 bg-yellow-500 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-amber-500 rounded-full blur-3xl" />
         </div>
-
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+        <div className="relative z-10">
+          <Heart className="w-16 h-16 text-yellow-400 mx-auto mb-6" />
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-display">
+            Ready to Build Your Chosen Family?
+          </h2>
+          <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto font-body">
+            Join thousands who have found their true family - the people who choose them every day.
+          </p>
+          <Button
+            size="lg"
+            className="btn-gold text-slate-900 font-bold shadow-2xl text-xl px-12 py-6 border-2 border-yellow-400/30"
           >
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gold-gradient font-display">
-              Your Family Is Waiting
-            </h2>
-            <p className="text-xl md:text-2xl text-slate-300 mb-10 max-w-3xl mx-auto font-body leading-relaxed">
-              Don't wait to build the support system you deserve. Start creating your chosen family today—it's free to
-              begin.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-slate-950 font-bold text-xl px-12 py-8 shadow-luxury"
-              >
-                Get Started Free
-                <ArrowRight className="ml-2 h-6 w-6" />
-              </Button>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-              {["Free to Start", "No Credit Card", "Cancel Anytime", "100% Private"].map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-center justify-center gap-2 text-slate-300 font-body"
-                >
-                  <CheckCircle2 className="h-5 w-5 text-yellow-500 flex-shrink-0" />
-                  <span>{item}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+            <Sparkles className="w-6 h-6 mr-2" />
+            Start Your Journey
+          </Button>
+          <p className="text-slate-400 text-sm mt-6 font-body">
+            Free to join • No credit card required • 10,000+ families built
+          </p>
         </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-slate-950 border-t border-yellow-600/20 py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <h3 className="text-xl font-bold text-gold-gradient mb-4 font-display">New Family Tree</h3>
-              <p className="text-slate-400 font-body">Building the families we choose, together.</p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-slate-100 mb-3 font-display">Product</h4>
-              <ul className="space-y-2 text-slate-400 font-body">
-                <li>
-                  <Link href="#" className="hover:text-yellow-400 transition-colors">
-                    Features
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-yellow-400 transition-colors">
-                    Pricing
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-yellow-400 transition-colors">
-                    FAQ
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-slate-100 mb-3 font-display">Company</h4>
-              <ul className="space-y-2 text-slate-400 font-body">
-                <li>
-                  <Link href="#" className="hover:text-yellow-400 transition-colors">
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-yellow-400 transition-colors">
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-yellow-400 transition-colors">
-                    Contact
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-slate-100 mb-3 font-display">Legal</h4>
-              <ul className="space-y-2 text-slate-400 font-body">
-                <li>
-                  <Link href="#" className="hover:text-yellow-400 transition-colors">
-                    Privacy
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-yellow-400 transition-colors">
-                    Terms
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-yellow-400 transition-colors">
-                    Security
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-yellow-600/20 pt-8 text-center text-slate-400 font-body">
-            <p>&copy; 2025 New Family Tree. All rights reserved. Built with ❤️ for chosen families everywhere.</p>
-          </div>
-        </div>
-      </footer>
+      </div>
     </div>
   )
 }
