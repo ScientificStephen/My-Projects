@@ -1,488 +1,472 @@
-import Image from "next/image"
+"use client"
+
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { Facebook, Instagram, Twitter, ShoppingBag, Upload } from "lucide-react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { AiAssistantNotification } from "@/components/ai-assistant-notification"
+import { Card, CardContent } from "@/components/ui/card"
+import { Heart, Users, Shield, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import Testimonials from "@/components/testimonials"
+import { motion } from "framer-motion"
 
-export default function Home() {
+export default function HomePage() {
+  const fadeIn = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 },
+  }
+
   return (
-    <div className="min-h-screen bg-zinc-100 text-zinc-900">
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">C&R</h1>
-          <nav>
-            <ul className="flex space-x-4">
-              <li>
-                <a href="#" className="hover:text-orange-500 transition-colors">
-                  Shop
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-orange-500 transition-colors">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-orange-500 transition-colors">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a href="/auth" className="hover:text-orange-500 transition-colors">
-                  Login
-                </a>
-              </li>
-              <li>
-                <a href="/auth?tab=register" className="hover:text-orange-500 transition-colors">
-                  Register
-                </a>
-              </li>
-            </ul>
-          </nav>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* Background with overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/diverse-multiracial-families-smiling-together-mult.jpg"
+            alt="Diverse families together"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/95 via-slate-950/90 to-slate-950" />
         </div>
-      </header>
 
-      <main>
-        <section className="bg-zinc-900 text-white py-20">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col items-center mb-12">
-              <h2
-                className="text-6xl md:text-8xl font-bold text-center mb-4 tracking-tight"
-                style={{ fontFamily: "'Brush Script MT', cursive" }}
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 text-center">
+          <motion.div {...fadeIn}>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-gold-gradient font-display">
+              Build the Family You Love
+            </h1>
+            <p className="text-xl md:text-2xl text-slate-300 mb-8 max-w-3xl mx-auto font-body leading-relaxed">
+              Because family isn't just who you're born to—it's who you choose. Connect with the people who truly
+              matter, create lasting bonds, and build your chosen family tree.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-slate-950 font-bold text-lg px-8 py-6 shadow-luxury"
               >
-                Connected
-              </h2>
-              <h2
-                className="text-6xl md:text-8xl font-bold text-center tracking-tight"
-                style={{ fontFamily: "'Brush Script MT', cursive" }}
+                Start Your Journey
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-2 border-yellow-500/50 hover:bg-yellow-500/10 text-slate-100 font-bold text-lg px-8 py-6 bg-transparent"
               >
-                <span className="text-orange-500">&</span> Respected
-              </h2>
+                Learn More
+              </Button>
             </div>
-            <div className="flex flex-col md:flex-row items-center">
-              <div className="md:w-1/2 mb-8 md:mb-0">
-                <p className="text-xl mb-6">
-                  Elevate your style with our curated collection of urban streetwear. Be bold, be authentic.
-                </p>
-                <Button className="bg-orange-500 hover:bg-orange-600 text-white text-lg px-8 py-3">
-                  Shop the Look
-                </Button>
-              </div>
-              <div className="md:w-1/2">
-                <Image
-                  src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=800&q=80"
-                  alt="Featured urban outfit"
-                  width={800}
-                  height={600}
-                  className="rounded-lg shadow-lg object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+          </motion.div>
 
-        <section className="bg-zinc-900 text-white py-16">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-8 text-center">New Arrivals</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="group relative overflow-hidden rounded-lg">
-                <Image
-                  src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=500&q=80"
-                  alt="Premium High-Top Sneakers"
-                  width={500}
-                  height={500}
-                  className="w-full h-[300px] object-cover transition-transform group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
-                  <h3 className="text-lg font-bold mb-2">Premium High-Top Sneakers</h3>
-                  <p className="text-sm text-gray-300 mb-4">Limited Edition Release</p>
-                  <Button className="bg-white text-black hover:bg-gray-200">Shop Now</Button>
-                </div>
-              </div>
-              <div className="group relative overflow-hidden rounded-lg">
-                <Image
-                  src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&q=80"
-                  alt="Vintage Leather Jacket"
-                  width={500}
-                  height={500}
-                  className="w-full h-[300px] object-cover transition-transform group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
-                  <h3 className="text-lg font-bold mb-2">Vintage Leather Jacket</h3>
-                  <p className="text-sm text-gray-300 mb-4">Classic Style Redefined</p>
-                  <Button className="bg-white text-black hover:bg-gray-200">Shop Now</Button>
-                </div>
-              </div>
-              <div className="group relative overflow-hidden rounded-lg">
-                <Image
-                  src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&q=80"
-                  alt="Urban Street Hoodie"
-                  width={500}
-                  height={500}
-                  className="w-full h-[300px] object-cover transition-transform group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
-                  <h3 className="text-lg font-bold mb-2">Urban Street Hoodie</h3>
-                  <p className="text-sm text-gray-300 mb-4">Comfort Meets Style</p>
-                  <Button className="bg-white text-black hover:bg-gray-200">Shop Now</Button>
-                </div>
-              </div>
-              <div className="group relative overflow-hidden rounded-lg">
-                <Image
-                  src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&q=80"
-                  alt="Designer Cargo Pants"
-                  width={500}
-                  height={500}
-                  className="w-full h-[300px] object-cover transition-transform group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
-                  <h3 className="text-lg font-bold mb-2">Designer Cargo Pants</h3>
-                  <p className="text-sm text-gray-300 mb-4">Urban Utility Wear</p>
-                  <Button className="bg-white text-black hover:bg-gray-200">Shop Now</Button>
-                </div>
-              </div>
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-16 grid grid-cols-3 gap-8 max-w-3xl mx-auto"
+          >
+            <div>
+              <div className="text-4xl font-bold text-gold-gradient mb-2">10K+</div>
+              <div className="text-slate-400 font-body">Members</div>
             </div>
-          </div>
-        </section>
-
-        <section className="py-16 bg-orange-500 text-white">
-          <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold mb-8 text-center">Special Sale</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-white rounded-lg shadow-md overflow-hidden text-zinc-900">
-                <Image
-                  src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=500&q=80"
-                  alt="Limited Edition Sneakers"
-                  width={500}
-                  height={500}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="font-semibold mb-2">Limited Edition Sneakers</h3>
-                  <p className="text-zinc-600 mb-2 line-through">$149.99</p>
-                  <p className="text-orange-500 font-bold mb-2">$99.99</p>
-                  <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white">Add to Cart</Button>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg shadow-md overflow-hidden text-zinc-900">
-                <Image
-                  src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&q=80"
-                  alt="Vintage Leather Jacket"
-                  width={500}
-                  height={500}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="font-semibold mb-2">Vintage Leather Jacket</h3>
-                  <p className="text-zinc-600 mb-2 line-through">$199.99</p>
-                  <p className="text-orange-500 font-bold mb-2">$149.99</p>
-                  <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white">Add to Cart</Button>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg shadow-md overflow-hidden text-zinc-900">
-                <Image
-                  src="https://images.unsplash.com/photo-1578681994506-b8f463449011?w=500&q=80"
-                  alt="Urban Bomber Jacket"
-                  width={500}
-                  height={500}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="font-semibold mb-2">Urban Bomber Jacket</h3>
-                  <p className="text-zinc-600 mb-2 line-through">$89.99</p>
-                  <p className="text-orange-500 font-bold mb-2">$69.99</p>
-                  <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white">Add to Cart</Button>
-                </div>
-              </div>
+            <div>
+              <div className="text-4xl font-bold text-gold-gradient mb-2">50K+</div>
+              <div className="text-slate-400 font-body">Connections</div>
             </div>
-          </div>
-        </section>
+            <div>
+              <div className="text-4xl font-bold text-gold-gradient mb-2">4.9★</div>
+              <div className="text-slate-400 font-body">Rating</div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
-        {/* New Custom Design Section */}
-        <section className="py-16 bg-zinc-800 text-white">
-          <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold mb-8 text-center">Design Your Own</h2>
-            <Tabs defaultValue="shirt" className="w-full max-w-4xl mx-auto">
-              <TabsList className="grid w-full grid-cols-2 mb-8">
-                <TabsTrigger value="shirt">Custom Shirt</TabsTrigger>
-                <TabsTrigger value="pants">Custom Pants</TabsTrigger>
-              </TabsList>
-              <TabsContent value="shirt">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="text-2xl font-semibold mb-4">Design Your Shirt</h3>
-                    <form className="space-y-4">
-                      <div>
-                        <Label htmlFor="shirt-image">Upload Image</Label>
-                        <div className="mt-1 flex items-center">
-                          <Label
-                            htmlFor="shirt-image"
-                            className="flex items-center justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
-                          >
-                            <span className="flex items-center space-x-2">
-                              <Upload className="w-6 h-6 text-gray-600" />
-                              <span className="font-medium text-gray-600">Click to upload image</span>
-                            </span>
-                            <Input id="shirt-image" type="file" className="hidden" accept="image/*" />
-                          </Label>
-                        </div>
-                      </div>
-                      <div>
-                        <Label htmlFor="shirt-text">Custom Text</Label>
-                        <Input id="shirt-text" placeholder="Enter text for your shirt" />
-                      </div>
-                      <div>
-                        <Label htmlFor="shirt-notes">Additional Notes</Label>
-                        <Textarea id="shirt-notes" placeholder="Any special instructions or details?" />
-                      </div>
-                      <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600">
-                        Create Custom Shirt
-                      </Button>
-                    </form>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <div className="w-64 h-64 bg-white rounded-lg flex items-center justify-center">
-                      <span className="text-zinc-400">Shirt Preview</span>
+      {/* Problem Statement */}
+      <section className="py-20 bg-gradient-to-b from-slate-950 to-slate-900">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gold-gradient font-display">
+              You're Not Alone in Feeling Alone
+            </h2>
+            <p className="text-xl text-slate-300 font-body leading-relaxed">
+              Millions of people feel disconnected from their biological families. Whether due to distance, values,
+              trauma, or life circumstances—you deserve a family that celebrates who you are.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {[
+              {
+                title: "LGBTQ+ Individuals",
+                description: "Rejected by biological family? Build one that celebrates your authentic self.",
+                icon: Heart,
+              },
+              {
+                title: "Single Parents",
+                description: "Need a support system? Find 'aunts,' 'uncles,' and co-parents who show up.",
+                icon: Users,
+              },
+              {
+                title: "Survivors",
+                description: "Healing from toxic relationships? Create a family based on love, not obligation.",
+                icon: Shield,
+              },
+              {
+                title: "Immigrants & Expats",
+                description: "Far from home? Connect with people who understand your journey and culture.",
+                icon: Sparkles,
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+              >
+                <Card className="card-luxury shadow-luxury border-2 border-yellow-600/20 hover-lift h-full">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center mb-4">
+                      <item.icon className="h-6 w-6 text-slate-950" />
                     </div>
-                  </div>
-                </div>
-              </TabsContent>
-              <TabsContent value="pants">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="text-2xl font-semibold mb-4">Design Your Pants</h3>
-                    <form className="space-y-4">
-                      <div>
-                        <Label htmlFor="pants-image">Upload Image</Label>
-                        <div className="mt-1 flex items-center">
-                          <Label
-                            htmlFor="pants-image"
-                            className="flex items-center justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
-                          >
-                            <span className="flex items-center space-x-2">
-                              <Upload className="w-6 h-6 text-gray-600" />
-                              <span className="font-medium text-gray-600">Click to upload image</span>
-                            </span>
-                            <Input id="pants-image" type="file" className="hidden" accept="image/*" />
-                          </Label>
-                        </div>
-                      </div>
-                      <div>
-                        <Label htmlFor="pants-text">Custom Text</Label>
-                        <Input id="pants-text" placeholder="Enter text for your pants" />
-                      </div>
-                      <div>
-                        <Label htmlFor="pants-notes">Additional Notes</Label>
-                        <Textarea id="pants-notes" placeholder="Any special instructions or details?" />
-                      </div>
-                      <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600">
-                        Create Custom Pants
-                      </Button>
-                    </form>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <div className="w-64 h-64 bg-white rounded-lg flex items-center justify-center">
-                      <span className="text-zinc-400">Pants Preview</span>
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
+                    <h3 className="text-xl font-bold mb-3 text-slate-100 font-display">{item.title}</h3>
+                    <p className="text-slate-300 font-body leading-relaxed">{item.description}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-8 text-center">Trending Now</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1578681994506-b8f463449011?w=500&q=80"
-                  alt="Urban Bomber Jacket"
-                  width={500}
-                  height={500}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="font-semibold mb-2">Urban Bomber Jacket</h3>
-                  <p className="text-zinc-600 mb-2">$89.99</p>
-                  <Button className="w-full bg-zinc-800 hover:bg-zinc-700 text-white">Add to Cart</Button>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=500&q=80"
-                  alt="Classic High-Top Sneakers"
-                  width={500}
-                  height={500}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="font-semibold mb-2">Classic High-Top Sneakers</h3>
-                  <p className="text-zinc-600 mb-2">$79.99</p>
-                  <Button className="w-full bg-zinc-800 hover:bg-zinc-700 text-white">Add to Cart</Button>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&q=80"
-                  alt="Graphic Street Hoodie"
-                  width={500}
-                  height={500}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="font-semibold mb-2">Graphic Street Hoodie</h3>
-                  <p className="text-zinc-600 mb-2">$64.99</p>
-                  <Button className="w-full bg-zinc-800 hover:bg-zinc-700 text-white">Add to Cart</Button>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500&q=80"
-                  alt="Retro Basketball Jersey"
-                  width={500}
-                  height={500}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="font-semibold mb-2">Retro Basketball Jersey</h3>
-                  <p className="text-zinc-600 mb-2">$54.99</p>
-                  <Button className="w-full bg-zinc-800 hover:bg-zinc-700 text-white">Add to Cart</Button>
-                </div>
-              </div>
-            </div>
+      {/* Features Section */}
+      <section className="py-20 bg-slate-900">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gold-gradient font-display">
+              Everything You Need to Build Your Family
+            </h2>
+            <p className="text-xl text-slate-300 max-w-3xl mx-auto font-body">
+              More than just a platform—it's a movement. Connect, share, and grow with the family you deserve.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                title: "Visual Family Tree",
+                description:
+                  "Create a beautiful, interactive tree with chosen family members—aunts, uncles, siblings, or 'just family.'",
+                image: "/asian-family-smiling-beach-vintage-photo-children.jpg",
+              },
+              {
+                title: "Private & Group Messaging",
+                description:
+                  "Stay connected with 1-on-1 chats or family group conversations. Share daily moments securely.",
+                image: "/hispanic-elderly-grandmother-smiling-birthday-cele.jpg",
+              },
+              {
+                title: "Shared Memories",
+                description:
+                  "Upload photos, videos, and stories. Build a digital scrapbook of your chosen family's journey.",
+                image: "/diverse-mixed-race-family-smiling-reunion-outdoors.jpg",
+              },
+              {
+                title: "Family Events",
+                description:
+                  "Plan dinners, birthdays, or virtual hangouts. Coordinate schedules and never miss a celebration.",
+                image: "/african-black-family-dinner-table-smiling-together.jpg",
+              },
+              {
+                title: "Video Calls",
+                description: "Face-to-face connection from anywhere. Host family calls with up to 12 people at once.",
+                image: "/happy-asian-family-smiling.jpg",
+              },
+              {
+                title: "Safe & Secure",
+                description: "Your family, your privacy. End-to-end encryption and control who sees what you share.",
+                image: "/happy-multiracial-mixed-family-smiling.jpg",
+              },
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+              >
+                <Card className="card-luxury shadow-luxury overflow-hidden group hover-lift border-2 border-yellow-600/20">
+                  <div className="relative h-48 overflow-hidden">
+                    <Image
+                      src={feature.image || "/placeholder.svg"}
+                      alt={feature.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent" />
+                  </div>
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-bold mb-3 text-slate-100 font-display">{feature.title}</h3>
+                    <p className="text-slate-300 font-body leading-relaxed">{feature.description}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="bg-zinc-800 text-white py-16">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center">
-              <div className="md:w-1/2 mb-8 md:mb-0">
-                <h2 className="text-3xl font-bold mb-4">The C&R Story</h2>
-                <p className="mb-4 text-lg">
-                  More than just a brand, we're a movement. Connected & Respected brings you authentic urban fashion
-                  that speaks to the heart of street culture. Our designs are a fusion of style, comfort, and attitude.
-                </p>
-                <Button
-                  variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-zinc-800 text-lg px-8 py-3"
+      {/* Testimonials Section */}
+      <section className="py-20 bg-gradient-to-b from-slate-900 to-slate-950">
+        <div className="container mx-auto px-4">
+          <Testimonials />
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20 bg-slate-950">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gold-gradient font-display">
+              Start Building Your Family in Minutes
+            </h2>
+            <p className="text-xl text-slate-300 max-w-3xl mx-auto font-body">
+              Three simple steps to create the support system you've always wanted
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              {
+                step: "1",
+                title: "Create Your Profile",
+                description: "Share who you are, what you value, and what kind of family connections you're seeking.",
+              },
+              {
+                step: "2",
+                title: "Find Your People",
+                description:
+                  "Browse profiles, send connection requests, and start conversations with potential family members.",
+              },
+              {
+                step: "3",
+                title: "Build Your Tree",
+                description: "Add connections as family members, create groups, and watch your chosen family grow.",
+              },
+            ].map((step, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className="relative"
+              >
+                <div className="text-center">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center text-3xl font-bold text-slate-950 mx-auto mb-6 shadow-luxury">
+                    {step.step}
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-slate-100 font-display">{step.title}</h3>
+                  <p className="text-slate-300 font-body leading-relaxed">{step.description}</p>
+                </div>
+                {index < 2 && (
+                  <div className="hidden md:block absolute top-8 -right-4 w-8 h-0.5 bg-gradient-to-r from-yellow-500 to-transparent" />
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof */}
+      <section className="py-20 bg-gradient-to-b from-slate-950 to-slate-900">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-slate-100 font-display">
+              Join Thousands Building Their Chosen Families
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              {[
+                { number: "10,000+", label: "Active Members", sublabel: "Building their families" },
+                { number: "50,000+", label: "Connections Made", sublabel: "And growing daily" },
+                { number: "1,000+", label: "Daily Messages", sublabel: "Staying connected" },
+              ].map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
                 >
-                  Our Legacy
-                </Button>
-              </div>
-              <div className="md:w-1/2">
-                <Image
-                  src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&q=80"
-                  alt="About Connected & Respected"
-                  width={800}
-                  height={600}
-                  className="rounded-lg shadow-lg object-cover"
-                />
-              </div>
+                  <Card className="card-luxury shadow-luxury border-2 border-yellow-600/20 hover-lift">
+                    <CardContent className="p-8 text-center">
+                      <div className="text-5xl font-bold text-gold-gradient mb-2 font-display">{stat.number}</div>
+                      <div className="text-xl font-semibold text-slate-100 mb-1 font-display">{stat.label}</div>
+                      <div className="text-slate-400 font-body">{stat.sublabel}</div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/black-father-white-son-handshake-chosen-family.jpg"
+            alt="Building chosen family"
+            fill
+            className="object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/95 to-slate-900/95" />
+        </div>
+
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gold-gradient font-display">
+              Your Family Is Waiting
+            </h2>
+            <p className="text-xl md:text-2xl text-slate-300 mb-10 max-w-3xl mx-auto font-body leading-relaxed">
+              Don't wait to build the support system you deserve. Start creating your chosen family today—it's free to
+              begin.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-slate-950 font-bold text-xl px-12 py-8 shadow-luxury"
+              >
+                Get Started Free
+                <ArrowRight className="ml-2 h-6 w-6" />
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+              {["Free to Start", "No Credit Card", "Cancel Anytime", "100% Private"].map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="flex items-center justify-center gap-2 text-slate-300 font-body"
+                >
+                  <CheckCircle2 className="h-5 w-5 text-yellow-500 flex-shrink-0" />
+                  <span>{item}</span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-slate-950 border-t border-yellow-600/20 py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="text-xl font-bold text-gold-gradient mb-4 font-display">New Family Tree</h3>
+              <p className="text-slate-400 font-body">Building the families we choose, together.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-slate-100 mb-3 font-display">Product</h4>
+              <ul className="space-y-2 text-slate-400 font-body">
+                <li>
+                  <Link href="#" className="hover:text-yellow-400 transition-colors">
+                    Features
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="hover:text-yellow-400 transition-colors">
+                    Pricing
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="hover:text-yellow-400 transition-colors">
+                    FAQ
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-slate-100 mb-3 font-display">Company</h4>
+              <ul className="space-y-2 text-slate-400 font-body">
+                <li>
+                  <Link href="#" className="hover:text-yellow-400 transition-colors">
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="hover:text-yellow-400 transition-colors">
+                    Blog
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="hover:text-yellow-400 transition-colors">
+                    Contact
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-slate-100 mb-3 font-display">Legal</h4>
+              <ul className="space-y-2 text-slate-400 font-body">
+                <li>
+                  <Link href="#" className="hover:text-yellow-400 transition-colors">
+                    Privacy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="hover:text-yellow-400 transition-colors">
+                    Terms
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="hover:text-yellow-400 transition-colors">
+                    Security
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
-        </section>
-        <footer className="bg-zinc-900 text-white py-12">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
-                <h3 className="text-xl font-bold mb-4">C&R</h3>
-                <p>Urban style for the connected generation.</p>
-                <address className="mt-4 not-italic">
-                  <p>1275 Winchester Road</p>
-                  <p>Memphis, Tennessee 38116</p>
-                  <p className="mt-2">
-                    <a href="mailto:Spook504@gmail.com" className="hover:text-orange-500 transition-colors">
-                      Spook504@gmail.com
-                    </a>
-                  </p>
-                </address>
-                <div className="flex space-x-4 mt-4">
-                  <a
-                    href="https://www.facebook.com/connectedandrespected"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-orange-500 transition-colors"
-                  >
-                    <Facebook size={24} />
-                    <span className="sr-only">Facebook</span>
-                  </a>
-                  <a
-                    href="https://www.instagram.com/connectedandrespected"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-orange-500 transition-colors"
-                  >
-                    <Instagram size={24} />
-                    <span className="sr-only">Instagram</span>
-                  </a>
-                  <a
-                    href="https://www.twitter.com/connectedandrespected"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-orange-500 transition-colors"
-                  >
-                    <Twitter size={24} />
-                    <span className="sr-only">Twitter</span>
-                  </a>
-                  <a
-                    href="https://connectedandrespected.myshopify.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-orange-500 transition-colors"
-                  >
-                    <ShoppingBag size={24} />
-                    <span className="sr-only">Shopify Store</span>
-                  </a>
-                </div>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-                <ul className="space-y-2">
-                  <li>
-                    <a href="#" className="hover:text-orange-500 transition-colors">
-                      Shop
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-orange-500 transition-colors">
-                      About
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-orange-500 transition-colors">
-                      Contact
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-orange-500 transition-colors">
-                      FAQ
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-4">Stay Connected</h3>
-                <p className="mb-4">Subscribe to our newsletter for the latest drops and exclusive offers.</p>
-                <form className="flex">
-                  <Input type="email" placeholder="Your email" className="rounded-r-none" />
-                  <Button type="submit" className="bg-orange-500 hover:bg-orange-600 rounded-l-none">
-                    Subscribe
-                  </Button>
-                </form>
-              </div>
-            </div>
-            <div className="mt-8 pt-8 border-t border-zinc-700 text-center">
-              <p>&copy; 2025 Connected & Respected. All rights reserved.</p>
-            </div>
+          <div className="border-t border-yellow-600/20 pt-8 text-center text-slate-400 font-body">
+            <p>&copy; 2025 New Family Tree. All rights reserved. Built with ❤️ for chosen families everywhere.</p>
           </div>
-        </footer>
-      </main>
-      <AiAssistantNotification />
+        </div>
+      </footer>
     </div>
   )
 }
