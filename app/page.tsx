@@ -1,16 +1,13 @@
-import FeedCard from "@/components/feed-card"
-import FamilyTreeCard from "@/components/family-tree-card"
+import { Button } from "@/components/ui/button"
+import { Heart, Quote, Sparkles, Crown } from "lucide-react"
+import Image from "next/image"
 import Testimonials from "@/components/testimonials"
 import SocialShare from "@/components/social-share"
-import { Button } from "@/components/ui/button"
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Heart, Quote, Sparkles, Users, Crown } from "lucide-react"
-import Image from "next/image"
 
 export default function Home() {
   return (
     <div className="space-y-12">
-      {/* Hero Section with Viral Quote and Chosen Family Image */}
+      {/* Hero Section */}
       <div className="relative rounded-3xl overflow-hidden shadow-luxury">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 z-10" />
         <Image
@@ -65,7 +62,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Featured Story - Father & Son */}
+      {/* Featured Story */}
       <div className="card-luxury shadow-luxury border-2 border-yellow-600/30">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div className="relative h-80 rounded-xl overflow-hidden">
@@ -102,10 +99,6 @@ export default function Home() {
                 <div className="text-sm text-yellow-400 font-body">Father & Son • Since 2023</div>
               </div>
             </div>
-            <Button className="btn-gold text-slate-900 font-bold border-2 border-yellow-400/30 mt-4">
-              <Heart className="w-4 h-4 mr-2" />
-              Read Their Story
-            </Button>
           </div>
         </div>
       </div>
@@ -124,115 +117,6 @@ export default function Home() {
           who you are."
         </blockquote>
         <p className="text-yellow-400 font-body">— The New Family Tree Community</p>
-      </div>
-
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Feed Section */}
-        <section className="md:col-span-2 space-y-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-bold text-gold-gradient font-display">Family Stories</h2>
-            <div className="text-sm text-slate-400 flex gap-3 font-body">
-              <span className="font-medium text-yellow-400">Trending</span>
-              <span className="text-slate-500">•</span>
-              <span>Latest</span>
-            </div>
-          </div>
-
-          <FeedCard
-            name="Marcus Johnson"
-            time="2h ago"
-            text="Today marks 1 year since David and I became father and son. Not by blood, but by choice. He's taught me as much as I've taught him. This is what real family looks like. 🤝❤️"
-            image="/black-father-white-son-handshake-chosen-family.jpg"
-            likes={2341}
-            comments={456}
-          />
-
-          <FeedCard
-            name="Aisha Rahman"
-            time="5h ago"
-            text="Five years ago, I walked into a support group feeling alone. Today, I have 12 people I call family who weren't in my life before. They chose me, and I chose them. That's real family. 💛"
-            image="/diverse-mixed-race-family-smiling-reunion-outdoors.jpg"
-            likes={842}
-            comments={126}
-          />
-
-          <FeedCard
-            name="David Chen"
-            time="8h ago"
-            text="My biological father left when I was 3. Marcus showed up when I was 23. He didn't have to choose me, but he did. And I chose him right back. Blood doesn't make family - love and commitment do. 🙏✨"
-            likes={1567}
-            comments={234}
-          />
-
-          <FeedCard
-            name="Sofia Martinez"
-            time="1 day ago"
-            text="My daughter calls my best friend 'Auntie' even though we're not blood-related. Because family is about love, not DNA. Building a family tree that reflects the love in our lives, not just bloodlines. 🌳❤️"
-            image="/happy-multiracial-mixed-family-smiling.jpg"
-            likes={956}
-            comments={189}
-          />
-        </section>
-
-        {/* Sidebar */}
-        <aside className="space-y-6">
-          {/* Your Circle */}
-          <div className="card-luxury">
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2 text-slate-100">
-                <Users className="w-5 h-5 text-yellow-400" />
-                Your Circle
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <FamilyTreeCard name="Marcus Johnson" relation="Chosen Father" />
-              <FamilyTreeCard name="Aisha Rahman" relation="Chosen Sister" />
-              <FamilyTreeCard name="Sofia Martinez" relation="Chosen Aunt" />
-              <Button className="w-full mt-4 bg-yellow-600/20 text-yellow-400 border border-yellow-600/30 hover:bg-yellow-600/30">
-                Build Your Circle
-              </Button>
-            </CardContent>
-          </div>
-
-          {/* Community Stats */}
-          <div className="card-gold">
-            <CardHeader>
-              <CardTitle className="text-lg text-slate-800">This Week</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-700 font-body">New connections</span>
-                <span className="font-bold text-yellow-800">2,847</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-700 font-body">Stories shared</span>
-                <span className="font-bold text-yellow-800">15,432</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-700 font-body">Hearts given</span>
-                <span className="font-bold text-yellow-800">89,231</span>
-              </div>
-            </CardContent>
-          </div>
-
-          {/* Founder Message */}
-          <div className="card-luxury border-2 border-yellow-600/30">
-            <CardHeader>
-              <div className="w-16 h-16 bg-gradient-to-br from-yellow-600 to-amber-600 rounded-full flex items-center justify-center text-white font-bold text-2xl mb-3">
-                AS
-              </div>
-              <CardTitle className="text-lg text-slate-100">From Our Founder</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-slate-300 leading-relaxed font-body">
-                "I created New Family Tree because I believe everyone deserves a family that loves them unconditionally.
-                Blood doesn't make family - love, respect, and choice do."
-              </p>
-              <p className="text-yellow-400 text-sm mt-3 font-body italic">— Alexian Scruggs</p>
-            </CardContent>
-          </div>
-        </aside>
       </div>
 
       {/* Testimonials Section */}

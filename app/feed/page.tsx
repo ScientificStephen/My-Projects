@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
-import FeedCard from "@/components/feed-card"
 import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Plus, Heart, Users } from "lucide-react"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Feed",
@@ -19,31 +20,32 @@ export default function FeedPage() {
         </Button>
       </div>
 
-      <FeedCard
-        name="Marcus Johnson"
-        time="2h ago"
-        text="Today marks 1 year since David and I became father and son. Not by blood, but by choice. He's taught me as much as I've taught him. This is what real family looks like. 🤝❤️"
-        image="/black-father-white-son-handshake-chosen-family.jpg"
-        likes={2341}
-        comments={456}
-      />
-
-      <FeedCard
-        name="Aisha Rahman"
-        time="5h ago"
-        text="Five years ago, I walked into a support group feeling alone. Today, I have 12 people I call family who weren't in my life before. They chose me, and I chose them. That's real family. 💛"
-        image="/diverse-mixed-race-family-smiling-reunion-outdoors.jpg"
-        likes={842}
-        comments={126}
-      />
-
-      <FeedCard
-        name="David Chen"
-        time="8h ago"
-        text="My biological father left when I was 3. Marcus showed up when I was 23. He didn't have to choose me, but he did. And I chose him right back. Blood doesn't make family - love and commitment do. 🙏✨"
-        likes={1567}
-        comments={234}
-      />
+      {/* Empty State */}
+      <Card className="card-luxury shadow-luxury border-2 border-yellow-600/20">
+        <CardContent className="py-16 text-center">
+          <div className="w-24 h-24 bg-gradient-to-br from-yellow-600/20 to-amber-600/20 rounded-full flex items-center justify-center mx-auto mb-6 border-2 border-yellow-400/30">
+            <Users className="w-12 h-12 text-yellow-400" />
+          </div>
+          <h2 className="text-2xl font-bold text-slate-100 mb-3 font-display">Your Feed is Empty</h2>
+          <p className="text-slate-400 mb-6 max-w-md mx-auto font-body">
+            Start building your chosen family to see posts and updates from the people you love
+          </p>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <Link href="/tree">
+              <Button className="btn-gold">
+                <Heart className="w-4 h-4 mr-2" />
+                View Your Tree
+              </Button>
+            </Link>
+            <Link href="/add-member">
+              <Button variant="outline" className="border-yellow-500/50 text-slate-100 bg-transparent">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Family Member
+              </Button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

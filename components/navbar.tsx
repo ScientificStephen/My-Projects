@@ -26,36 +26,12 @@ export default function NavBar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
-          <Link
-            href="/"
-            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body tracking-wide"
-          >
-            Feed
-          </Link>
-          <Link
-            href="/tree"
-            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body tracking-wide"
-          >
-            Tree
-          </Link>
-          <Link
-            href="/add-member"
-            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body tracking-wide"
-          >
-            Add Member
-          </Link>
-          <Link
-            href="/profile"
-            className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition font-body tracking-wide"
-          >
-            Profile
-          </Link>
           <Button
             onClick={() => setAuthModalOpen(true)}
             className="btn-gold text-slate-900 font-bold shadow-xl hover:shadow-2xl transition-all px-6 font-body border-2 border-yellow-400/30"
           >
             <Sparkles className="w-4 h-4 mr-2" />
-            Join Now
+            Get Started
           </Button>
         </nav>
 
@@ -68,34 +44,6 @@ export default function NavBar() {
         {mobileMenuOpen && (
           <div className="absolute top-full left-0 right-0 bg-slate-900 border-b border-yellow-600/20 shadow-2xl md:hidden">
             <nav className="flex flex-col p-6 space-y-4">
-              <Link
-                href="/"
-                className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition py-2 font-body"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Feed
-              </Link>
-              <Link
-                href="/tree"
-                className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition py-2 font-body"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Tree
-              </Link>
-              <Link
-                href="/add-member"
-                className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition py-2 font-body"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Add Member
-              </Link>
-              <Link
-                href="/profile"
-                className="text-sm font-medium text-slate-300 hover:text-yellow-400 transition py-2 font-body"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Profile
-              </Link>
               <Button
                 onClick={() => {
                   setAuthModalOpen(true)
@@ -104,7 +52,7 @@ export default function NavBar() {
                 className="btn-gold text-slate-900 font-bold shadow-xl w-full border-2 border-yellow-400/30"
               >
                 <Sparkles className="w-4 h-4 mr-2" />
-                Join Now
+                Get Started
               </Button>
             </nav>
           </div>
