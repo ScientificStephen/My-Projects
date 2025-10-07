@@ -1,6 +1,7 @@
 import "./globals.css"
 import type { ReactNode } from "react"
 import NavBar from "@/components/navbar"
+import SetupBanner from "@/components/setup-banner"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="antialiased">
         <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <NavBar />
+          <SetupBanner />
           <main className="mt-6 mb-20">{children}</main>
 
           {/* Footer */}

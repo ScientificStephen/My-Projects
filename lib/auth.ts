@@ -3,8 +3,8 @@
 import { supabase, isSupabaseConfigured } from "./supabase"
 
 function checkSupabaseConfig() {
-  if (!isSupabaseConfigured()) {
-    throw new Error("Supabase is not configured. Please add environment variables.")
+  if (!isSupabaseConfigured() || !supabase) {
+    throw new Error("Database connection required. Please complete setup in your dashboard.")
   }
 }
 
@@ -45,11 +45,13 @@ export async function signOut() {
 }
 
 export async function getCurrentUser() {
-  checkSupabaseConfig()
+  if (!isSupabaseConfigured() || !supabase) {
+    return null
+  }
 
   const {
     data: { user },
-  } = await supabase!.auth.getUser()
+  } = await supabase.auth.getUser()
   return user
 }
 

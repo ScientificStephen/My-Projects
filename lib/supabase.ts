@@ -5,19 +5,14 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ""
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
 
 // Check if environment variables are set
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error("⚠️ Missing Supabase environment variables!")
-  console.error("Please add these to your .env.local file:")
-  console.error("NEXT_PUBLIC_SUPABASE_URL=your_supabase_url")
-  console.error("NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key")
-}
+const isConfigured = Boolean(supabaseUrl && supabaseAnonKey)
 
-// Create Supabase client (will be null if env vars are missing)
-export const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null
+// Create Supabase client only if configured
+export const supabase = isConfigured ? createClient(supabaseUrl, supabaseAnonKey) : null
 
 // Helper to check if Supabase is configured
 export function isSupabaseConfigured() {
-  return supabase !== null
+  return isConfigured
 }
 
 // Types for our database
