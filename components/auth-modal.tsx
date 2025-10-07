@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Mail, Lock, User, Sparkles } from "lucide-react"
+import { Mail, Lock, User, Sparkles, AlertCircle } from "lucide-react"
+import { signUp, signIn } from "@/lib/auth"
+import { useRouter } from "next/navigation"
 
 interface AuthModalProps {
   open: boolean
@@ -16,16 +18,62 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Sign up form
+  const [signUpData, setSignUpData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+  })
+
+  // Sign in form
+  const [signInData, setSignInData] = useState({
+    email: "",
+    password: "",
+  })
+
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
+    setSuccess(null)
     setIsLoading(true)
-    // Simulate API call
-    setTimeout(() => {
+
+    try {
+      await signUp(signUpData.email, signUpData.password, signUpData.fullName)
+      setSuccess("Account created! Check your email to verify your account.")
+      setTimeout(() => {
+        onOpenChange(false)
+        router.push("/profile")
+      }, 2000)
+    } catch (err: any) {
+      setError(err.message || "Failed to create account")
+    } finally {
       setIsLoading(false)
-      onOpenChange(false)
-    }, 1500)
+    }
+  }
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+    setSuccess(null)
+    setIsLoading(true)
+
+    try {
+      await signIn(signInData.email, signInData.password)
+      setSuccess("Signed in successfully!")
+      setTimeout(() => {
+        onOpenChange(false)
+        router.push("/feed")
+      }, 1000)
+    } catch (err: any) {
+      setError(err.message || "Failed to sign in")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -39,6 +87,20 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
             Start building the family you love today
           </DialogDescription>
         </DialogHeader>
+
+        {error && (
+          <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-3 flex items-start gap-2">
+            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-red-400">{error}</p>
+          </div>
+        )}
+
+        {success && (
+          <div className="bg-green-500/10 border border-green-500/50 rounded-lg p-3 flex items-start gap-2">
+            <Sparkles className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-green-400">{success}</p>
+          </div>
+        )}
 
         <Tabs defaultValue="signup" className="w-full">
           <TabsList className="grid w-full grid-cols-2 bg-slate-800">
@@ -57,7 +119,7 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
           </TabsList>
 
           <TabsContent value="signup">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSignUp} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="signup-name" className="text-slate-200">
                   Full Name
@@ -69,6 +131,8 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
                     placeholder="Your name"
                     className="pl-10 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500"
                     required
+                    value={signUpData.fullName}
+                    onChange={(e) => setSignUpData({ ...signUpData, fullName: e.target.value })}
                   />
                 </div>
               </div>
@@ -85,6 +149,8 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
                     placeholder="your@email.com"
                     className="pl-10 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500"
                     required
+                    value={signUpData.email}
+                    onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
                   />
                 </div>
               </div>
@@ -98,9 +164,12 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
                   <Input
                     id="signup-password"
                     type="password"
-                    placeholder="Create a password"
+                    placeholder="Create a password (min 6 characters)"
                     className="pl-10 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500"
                     required
+                    minLength={6}
+                    value={signUpData.password}
+                    onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
                   />
                 </div>
               </div>
@@ -119,7 +188,7 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
           </TabsContent>
 
           <TabsContent value="login">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSignIn} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="login-email" className="text-slate-200">
                   Email
@@ -132,6 +201,8 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
                     placeholder="your@email.com"
                     className="pl-10 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500"
                     required
+                    value={signInData.email}
+                    onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
                   />
                 </div>
               </div>
@@ -148,6 +219,8 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
                     placeholder="Enter your password"
                     className="pl-10 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500"
                     required
+                    value={signInData.password}
+                    onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
                   />
                 </div>
               </div>
@@ -155,16 +228,6 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
               <Button type="submit" className="w-full btn-gold" disabled={isLoading}>
                 {isLoading ? "Logging in..." : "Login"}
               </Button>
-
-              <div className="text-center">
-                <button
-                  type="button"
-                  className="text-sm text-yellow-400 hover:text-yellow-300 transition"
-                  onClick={() => {}}
-                >
-                  Forgot password?
-                </button>
-              </div>
             </form>
           </TabsContent>
         </Tabs>
