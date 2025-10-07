@@ -2,14 +2,15 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Mail, Lock, User, Sparkles, AlertCircle } from "lucide-react"
+import { Mail, Lock, User, Sparkles, AlertCircle, AlertTriangle } from "lucide-react"
 import { signUp, signIn } from "@/lib/auth"
+import { isSupabaseConfigured } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
 
 interface AuthModalProps {
@@ -22,6 +23,11 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+  const [isConfigured, setIsConfigured] = useState(true)
+
+  useEffect(() => {
+    setIsConfigured(isSupabaseConfigured())
+  }, [])
 
   // Sign up form
   const [signUpData, setSignUpData] = useState({
@@ -35,6 +41,69 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
     email: "",
     password: "",
   })
+
+  if (!isConfigured) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-md bg-slate-900 border-yellow-600/20 text-slate-100">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-gold-gradient font-display flex items-center gap-2">
+              <AlertTriangle className="w-6 h-6 text-yellow-400" />
+              Setup Required
+            </DialogTitle>
+            <DialogDescription className="text-slate-400 font-body">
+              Database connection needs to be configured
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-lg p-4">
+              <h3 className="font-bold text-yellow-400 mb-2">⚠️ Supabase Not Connected</h3>
+              <p className="text-sm text-slate-300 mb-3">
+                To enable sign-up and login, you need to connect a Supabase database.
+              </p>
+
+              <div className="space-y-2 text-sm">
+                <p className="text-slate-400">Quick setup steps:</p>
+                <ol className="list-decimal list-inside space-y-1 text-slate-300 ml-2">
+                  <li>
+                    Create a free account at{" "}
+                    <a
+                      href="https://supabase.com"
+                      target="_blank"
+                      className="text-yellow-400 hover:underline"
+                      rel="noreferrer"
+                    >
+                      supabase.com
+                    </a>
+                  </li>
+                  <li>Create a new project</li>
+                  <li>Copy your project URL and anon key</li>
+                  <li>Add them as environment variables in Vercel</li>
+                </ol>
+              </div>
+            </div>
+
+            <div className="bg-slate-800 rounded-lg p-4 font-mono text-xs">
+              <p className="text-slate-400 mb-2">Environment Variables Needed:</p>
+              <code className="text-yellow-400">
+                NEXT_PUBLIC_SUPABASE_URL=your_url
+                <br />
+                NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
+              </code>
+            </div>
+
+            <Button onClick={() => window.open("https://supabase.com", "_blank")} className="w-full btn-gold">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Setup Supabase Now
+            </Button>
+
+            <p className="text-xs text-center text-slate-500">Setup takes less than 5 minutes • Free tier available</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+    )
+  }
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
