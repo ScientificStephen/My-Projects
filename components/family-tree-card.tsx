@@ -1,27 +1,26 @@
-"use client"
-
-import Link from "next/link"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 interface FamilyTreeCardProps {
   name: string
   relation: string
-  avatar?: string
-  href?: string
 }
 
-export default function FamilyTreeCard({ name, relation, avatar, href = "#" }: FamilyTreeCardProps) {
+export default function FamilyTreeCard({ name, relation }: FamilyTreeCardProps) {
   return (
-    <Link
-      href={href}
-      className="flex items-center gap-3 p-3 rounded-xl bg-slate-800/50 border border-yellow-600/20 hover:border-yellow-600/40 hover:bg-slate-800 transition-all hover:shadow-lg"
-    >
-      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-600 via-yellow-500 to-amber-600 flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg border-2 border-yellow-400/30">
-        {name.charAt(0)}
+    <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 border border-yellow-600/10 hover:border-yellow-600/30 transition cursor-pointer">
+      <Avatar className="border-2 border-yellow-400/30">
+        <AvatarImage src={`/generic-placeholder-graphic.png?height=40&width=40`} />
+        <AvatarFallback className="bg-gradient-to-br from-yellow-600 to-amber-600 text-white font-bold text-sm">
+          {name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")}
+        </AvatarFallback>
+      </Avatar>
+      <div className="flex-1 min-w-0">
+        <h4 className="font-bold text-slate-100 text-sm font-display truncate">{name}</h4>
+        <p className="text-xs text-yellow-400 font-body">{relation}</p>
       </div>
-      <div className="min-w-0">
-        <div className="font-medium text-slate-200 truncate font-display">{name}</div>
-        <div className="text-sm text-slate-400 font-body">{relation}</div>
-      </div>
-    </Link>
+    </div>
   )
 }

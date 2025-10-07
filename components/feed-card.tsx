@@ -1,7 +1,8 @@
 "use client"
 
+import { Card, CardContent } from "@/components/ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Heart, MessageCircle, Share2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import Image from "next/image"
 
 interface FeedCardProps {
@@ -9,64 +10,58 @@ interface FeedCardProps {
   time: string
   text: string
   image?: string
-  likes?: number
-  comments?: number
+  likes: number
+  comments: number
 }
 
-export default function FeedCard({ name, time, text, image, likes = 0, comments = 0 }: FeedCardProps) {
+export default function FeedCard({ name, time, text, image, likes, comments }: FeedCardProps) {
   return (
-    <article className="card-luxury mb-6 hover:shadow-2xl transition-all">
-      <div className="flex gap-4">
-        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-yellow-600 via-yellow-500 to-amber-600 flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-xl border-2 border-yellow-400/30">
-          {name.charAt(0)}
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between mb-2">
-            <div>
-              <div className="font-semibold text-slate-100 font-display">{name}</div>
-              <div className="text-xs text-slate-500 font-body">{time}</div>
-            </div>
+    <Card className="card-luxury shadow-luxury border-2 border-yellow-600/20 overflow-hidden hover-lift">
+      <CardContent className="p-0">
+        {/* Header */}
+        <div className="p-4 flex items-center gap-3">
+          <Avatar className="border-2 border-yellow-400/30">
+            <AvatarImage src={`/generic-placeholder-graphic.png?height=40&width=40`} />
+            <AvatarFallback className="bg-gradient-to-br from-yellow-600 to-amber-600 text-white font-bold">
+              {name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1">
+            <h4 className="font-bold text-slate-100 font-display">{name}</h4>
+            <p className="text-xs text-slate-400 font-body">{time}</p>
           </div>
-          <p className="text-sm leading-relaxed text-slate-300 font-body">{text}</p>
-          {image && (
-            <div className="mt-4 w-full h-64 bg-slate-800 rounded-xl overflow-hidden shadow-lg border border-yellow-600/10">
-              <Image
-                src={image || "/placeholder.svg"}
-                alt="post"
-                width={600}
-                height={400}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          )}
         </div>
-      </div>
-      <footer className="mt-4 pt-4 border-t border-yellow-600/20 flex gap-6">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-slate-400 hover:text-yellow-400 hover:bg-yellow-400/10 font-body"
-        >
-          <Heart className="w-4 h-4 mr-2" />
-          {likes.toLocaleString()}
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-slate-400 hover:text-yellow-400 hover:bg-yellow-400/10 font-body"
-        >
-          <MessageCircle className="w-4 h-4 mr-2" />
-          {comments.toLocaleString()}
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-slate-400 hover:text-yellow-400 hover:bg-yellow-400/10 font-body"
-        >
-          <Share2 className="w-4 h-4 mr-2" />
-          Share
-        </Button>
-      </footer>
-    </article>
+
+        {/* Content */}
+        <div className="px-4 pb-4">
+          <p className="text-slate-200 font-body leading-relaxed">{text}</p>
+        </div>
+
+        {/* Image */}
+        {image && (
+          <div className="relative h-64 w-full">
+            <Image src={image || "/placeholder.svg"} alt={name} fill className="object-cover" />
+          </div>
+        )}
+
+        {/* Actions */}
+        <div className="px-4 py-3 flex items-center gap-6 border-t border-yellow-600/20">
+          <button className="flex items-center gap-2 text-slate-300 hover:text-yellow-400 transition group">
+            <Heart className="w-5 h-5 group-hover:fill-yellow-400" />
+            <span className="text-sm font-body">{likes.toLocaleString()}</span>
+          </button>
+          <button className="flex items-center gap-2 text-slate-300 hover:text-yellow-400 transition">
+            <MessageCircle className="w-5 h-5" />
+            <span className="text-sm font-body">{comments}</span>
+          </button>
+          <button className="flex items-center gap-2 text-slate-300 hover:text-yellow-400 transition ml-auto">
+            <Share2 className="w-5 h-5" />
+          </button>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
