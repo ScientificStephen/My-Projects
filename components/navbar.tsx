@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Users, Menu, X, Sparkles } from "lucide-react"
+import { Users, Menu, X, Sparkles, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import AuthModal from "./auth-modal"
 
@@ -25,7 +25,14 @@ export default function NavBar() {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6">
+          <Link
+            href="/diagnostics"
+            className="text-sm font-medium text-slate-400 hover:text-yellow-400 transition font-body flex items-center gap-2"
+          >
+            <Settings className="w-4 h-4" />
+            Diagnostics
+          </Link>
           <Button
             onClick={() => setAuthModalOpen(true)}
             className="btn-gold text-slate-900 font-bold shadow-xl hover:shadow-2xl transition-all px-6 font-body border-2 border-yellow-400/30"
@@ -44,6 +51,14 @@ export default function NavBar() {
         {mobileMenuOpen && (
           <div className="absolute top-full left-0 right-0 bg-slate-900 border-b border-yellow-600/20 shadow-2xl md:hidden">
             <nav className="flex flex-col p-6 space-y-4">
+              <Link
+                href="/diagnostics"
+                className="text-sm font-medium text-slate-400 hover:text-yellow-400 transition font-body flex items-center gap-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Settings className="w-4 h-4" />
+                Diagnostics
+              </Link>
               <Button
                 onClick={() => {
                   setAuthModalOpen(true)
