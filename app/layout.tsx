@@ -2,6 +2,8 @@ import "./globals.css"
 import type { ReactNode } from "react"
 import NavBar from "@/components/navbar"
 import SetupBanner from "@/components/setup-banner"
+import EmailVerificationBanner from "@/components/email-verification-banner"
+import { AuthProvider } from "@/lib/auth-context"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -48,37 +50,40 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className="antialiased">
-        <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <NavBar />
-          <SetupBanner />
-          <main className="mt-6 mb-20">{children}</main>
+        <AuthProvider>
+          <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <NavBar />
+            <SetupBanner />
+            <EmailVerificationBanner />
+            <main className="mt-6 mb-20">{children}</main>
 
-          {/* Footer */}
-          <footer className="border-t border-yellow-600/20 py-8 mt-20">
-            <div className="text-center space-y-4">
-              <div className="text-gold-gradient font-display text-xl font-bold">New Family Tree</div>
-              <p className="text-slate-400 text-sm font-body max-w-2xl mx-auto">
-                "You might not have been born with the family you want but here you can build the family you love"
-              </p>
-              <p className="text-yellow-400 text-sm font-body italic">— Alexian Scruggs, Founder</p>
-              <div className="flex justify-center gap-6 text-sm text-slate-400 font-body">
-                <a href="#" className="hover:text-yellow-400 transition">
-                  About
-                </a>
-                <a href="#" className="hover:text-yellow-400 transition">
-                  Privacy
-                </a>
-                <a href="#" className="hover:text-yellow-400 transition">
-                  Terms
-                </a>
-                <a href="#" className="hover:text-yellow-400 transition">
-                  Contact
-                </a>
+            {/* Footer */}
+            <footer className="border-t border-yellow-600/20 py-8 mt-20">
+              <div className="text-center space-y-4">
+                <div className="text-gold-gradient font-display text-xl font-bold">New Family Tree</div>
+                <p className="text-slate-400 text-sm font-body max-w-2xl mx-auto">
+                  "You might not have been born with the family you want but here you can build the family you love"
+                </p>
+                <p className="text-yellow-400 text-sm font-body italic">— Alexian Scruggs, Founder</p>
+                <div className="flex justify-center gap-6 text-sm text-slate-400 font-body">
+                  <a href="#" className="hover:text-yellow-400 transition">
+                    About
+                  </a>
+                  <a href="#" className="hover:text-yellow-400 transition">
+                    Privacy
+                  </a>
+                  <a href="#" className="hover:text-yellow-400 transition">
+                    Terms
+                  </a>
+                  <a href="#" className="hover:text-yellow-400 transition">
+                    Contact
+                  </a>
+                </div>
+                <p className="text-slate-500 text-xs font-body">© 2025 New Family Tree. All rights reserved.</p>
               </div>
-              <p className="text-slate-500 text-xs font-body">© 2025 New Family Tree. All rights reserved.</p>
-            </div>
-          </footer>
-        </div>
+            </footer>
+          </div>
+        </AuthProvider>
       </body>
     </html>
   )

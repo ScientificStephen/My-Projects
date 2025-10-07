@@ -1,15 +1,14 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Mail, Lock, User, Sparkles, AlertCircle, AlertTriangle, ExternalLink } from "lucide-react"
-import { signUp, signIn } from "@/lib/auth"
+import { Mail, Lock, User, Sparkles, AlertCircle, AlertTriangle, ExternalLink, Eye, EyeOff } from "lucide-react"
+import { signUp, signIn, validatePassword } from "@/lib/auth"
 import { isSupabaseConfigured } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
 
@@ -24,6 +23,9 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const [isConfigured, setIsConfigured] = useState(true)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [passwordStrength, setPasswordStrength] = useState<string[]>([])
 
   useEffect(() => {
     setIsConfigured(isSupabaseConfigured())
@@ -34,6 +36,7 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
     fullName: "",
     email: "",
     password: "",
+    confirmPassword: "",
   })
 
   // Sign in form
@@ -41,6 +44,16 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
     email: "",
     password: "",
   })
+
+  // Check password strength as user types
+  useEffect(() => {
+    if (signUpData.password) {
+      const validation = validatePassword(signUpData.password)
+      setPasswordStrength(validation.errors)
+    } else {
+      setPasswordStrength([])
+    }
+  }, [signUpData.password])
 
   if (!isConfigured) {
     return (
@@ -64,55 +77,23 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
                 Supabase database.
               </p>
 
-              <div className="bg-slate-800/50 rounded-lg p-4 mb-4">
-                <p className="text-xs text-slate-400 mb-2 font-semibold">What You Get:</p>
-                <ul className="space-y-1 text-sm text-slate-300">
-                  <li className="flex items-center gap-2">
-                    <span className="text-green-400">✓</span> User accounts & authentication
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="text-green-400">✓</span> Family member management
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="text-green-400">✓</span> Post sharing & interactions
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="text-green-400">✓</span> Secure & scalable database
-                  </li>
-                </ul>
-              </div>
-
-              <div className="space-y-2 text-xs text-slate-400">
-                <p className="font-semibold text-slate-300">Quick Setup (5 minutes):</p>
-                <ol className="list-decimal list-inside space-y-1.5 ml-2 text-slate-400">
-                  <li>Create free Supabase account</li>
-                  <li>Copy your project URL & API key</li>
-                  <li>Add to Vercel environment variables</li>
-                  <li>Redeploy your site</li>
-                </ol>
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => window.open("https://supabase.com/dashboard/sign-in", "_blank")}
+                  className="flex-1 btn-gold"
+                >
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Setup Database Now
+                </Button>
+                <Button
+                  onClick={() => window.open("/diagnostics", "_blank")}
+                  variant="outline"
+                  className="border-yellow-500/50 text-slate-100 bg-transparent hover:bg-yellow-500/10"
+                >
+                  View Guide
+                </Button>
               </div>
             </div>
-
-            <div className="flex gap-3">
-              <Button
-                onClick={() => window.open("https://supabase.com/dashboard/sign-in", "_blank")}
-                className="flex-1 btn-gold"
-              >
-                <ExternalLink className="w-4 h-4 mr-2" />
-                Setup Database Now
-              </Button>
-              <Button
-                onClick={() => window.open("https://github.com/supabase/supabase/blob/master/README.md", "_blank")}
-                variant="outline"
-                className="border-yellow-500/50 text-slate-100 bg-transparent hover:bg-yellow-500/10"
-              >
-                View Guide
-              </Button>
-            </div>
-
-            <p className="text-xs text-center text-slate-500">
-              Free tier available • No credit card required • 5 minute setup
-            </p>
           </div>
         </DialogContent>
       </Dialog>
@@ -123,15 +104,34 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
     e.preventDefault()
     setError(null)
     setSuccess(null)
+
+    // Validate passwords match
+    if (signUpData.password !== signUpData.confirmPassword) {
+      setError("Passwords do not match")
+      return
+    }
+
+    // Validate password strength
+    const validation = validatePassword(signUpData.password)
+    if (!validation.isValid) {
+      setError(validation.errors[0])
+      return
+    }
+
     setIsLoading(true)
 
     try {
       await signUp(signUpData.email, signUpData.password, signUpData.fullName)
-      setSuccess("Account created! Check your email to verify your account.")
-      setTimeout(() => {
-        onOpenChange(false)
-        router.push("/profile")
-      }, 2000)
+      setSuccess(
+        "Account created! Please check your email and click the verification link before logging in. Check your spam folder if you don't see it.",
+      )
+      // Clear form
+      setSignUpData({
+        fullName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      })
     } catch (err: any) {
       setError(err.message || "Failed to create account")
     } finally {
@@ -146,11 +146,20 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
     setIsLoading(true)
 
     try {
-      await signIn(signInData.email, signInData.password)
+      const { user } = await signIn(signInData.email, signInData.password)
+
+      // Check if email is verified
+      if (user && !user.email_confirmed_at) {
+        setError("Please verify your email address before logging in. Check your inbox for the verification link.")
+        setIsLoading(false)
+        return
+      }
+
       setSuccess("Signed in successfully!")
       setTimeout(() => {
         onOpenChange(false)
         router.push("/feed")
+        router.refresh()
       }, 1000)
     } catch (err: any) {
       setError(err.message || "Failed to sign in")
@@ -161,7 +170,7 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-slate-900 border-yellow-600/20 text-slate-100">
+      <DialogContent className="sm:max-w-md bg-slate-900 border-yellow-600/20 text-slate-100 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-gold-gradient font-display">
             Welcome to New Family Tree
@@ -201,11 +210,11 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="signup">
+          <TabsContent value="signup" className="space-y-4">
             <form onSubmit={handleSignUp} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="signup-name" className="text-slate-200">
-                  Full Name
+                  Full Name *
                 </Label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
@@ -222,7 +231,7 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
 
               <div className="space-y-2">
                 <Label htmlFor="signup-email" className="text-slate-200">
-                  Email
+                  Email *
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
@@ -240,21 +249,80 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
 
               <div className="space-y-2">
                 <Label htmlFor="signup-password" className="text-slate-200">
-                  Password
+                  Password *
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                   <Input
                     id="signup-password"
-                    type="password"
-                    placeholder="Create a password (min 6 characters)"
-                    className="pl-10 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Create a strong password"
+                    className="pl-10 pr-10 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500"
                     required
-                    minLength={6}
+                    minLength={8}
                     value={signUpData.password}
                     onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-300"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
                 </div>
+                {passwordStrength.length > 0 && signUpData.password && (
+                  <div className="text-xs space-y-1">
+                    {passwordStrength.map((error, i) => (
+                      <p key={i} className="text-red-400 flex items-center gap-1">
+                        <span>•</span> {error}
+                      </p>
+                    ))}
+                  </div>
+                )}
+                {passwordStrength.length === 0 && signUpData.password && (
+                  <p className="text-xs text-green-400 flex items-center gap-1">
+                    <Sparkles className="w-3 h-3" /> Strong password!
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="signup-confirm-password" className="text-slate-200">
+                  Confirm Password *
+                </Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                  <Input
+                    id="signup-confirm-password"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Re-enter your password"
+                    className="pl-10 pr-10 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500"
+                    required
+                    minLength={8}
+                    value={signUpData.confirmPassword}
+                    onChange={(e) => setSignUpData({ ...signUpData, confirmPassword: e.target.value })}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-300"
+                  >
+                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+                {signUpData.confirmPassword && signUpData.password !== signUpData.confirmPassword && (
+                  <p className="text-xs text-red-400">Passwords do not match</p>
+                )}
+              </div>
+
+              <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-xs text-slate-400">
+                <p className="font-semibold text-slate-300 mb-2">Password Requirements:</p>
+                <ul className="space-y-1">
+                  <li>• At least 8 characters long</li>
+                  <li>• Contains uppercase and lowercase letters</li>
+                  <li>• Contains at least one number</li>
+                </ul>
               </div>
 
               <Button type="submit" className="w-full btn-gold" disabled={isLoading}>
@@ -298,13 +366,20 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                   <Input
                     id="login-password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
-                    className="pl-10 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500"
+                    className="pl-10 pr-10 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500"
                     required
                     value={signInData.password}
                     onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-300"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
                 </div>
               </div>
 

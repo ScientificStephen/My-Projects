@@ -18,6 +18,7 @@ export async function signUp(email: string, password: string, fullName: string) 
       data: {
         full_name: fullName,
       },
+      emailRedirectTo: `${window.location.origin}/auth/callback`,
     },
   })
 
@@ -55,6 +56,25 @@ export async function getCurrentUser() {
   return user
 }
 
+export async function resendVerificationEmail() {
+  checkSupabaseConfig()
+
+  const {
+    data: { user },
+  } = await supabase!.auth.getUser()
+
+  if (!user?.email) {
+    throw new Error("No user email found")
+  }
+
+  const { error } = await supabase!.auth.resend({
+    type: "signup",
+    email: user.email,
+  })
+
+  if (error) throw error
+}
+
 export async function getProfile(userId: string) {
   checkSupabaseConfig()
 
@@ -62,4 +82,30 @@ export async function getProfile(userId: string) {
 
   if (error) throw error
   return data
+}
+
+// Password strength checker
+export function validatePassword(password: string): {
+  isValid: boolean
+  errors: string[]
+} {
+  const errors: string[] = []
+
+  if (password.length < 8) {
+    errors.push("Password must be at least 8 characters long")
+  }
+  if (!/[A-Z]/.test(password)) {
+    errors.push("Password must contain at least one uppercase letter")
+  }
+  if (!/[a-z]/.test(password)) {
+    errors.push("Password must contain at least one lowercase letter")
+  }
+  if (!/[0-9]/.test(password)) {
+    errors.push("Password must contain at least one number")
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+  }
 }
